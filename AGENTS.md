@@ -1,0 +1,2 @@
+# Codex instructions
+Build The Life Edit, an editorial AI lifestyle app. Areas: My DNA, My Edit, My Plans, My Finds. Use user-consented inspiration only. Pinterest API approval and data-use permissions are unverified; never scrape or store Pinterest data without authorization. Label demo data clearly. Keep secrets server-side. Run lint/typecheck/build. See docs/PRD.md.

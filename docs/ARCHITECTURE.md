@@ -1,0 +1,2 @@
+# Architecture
+Next.js App Router, React, TypeScript, Tailwind CSS. Initial version uses clearly labeled demo data. Later add Supabase/PostgreSQL for Users, InspirationSources, InspirationItems, TasteInsights, Goals, Plans, Recommendations and Feedback. OAuth integrations require approval and least-privilege permissions. Never expose API secrets in the browser.

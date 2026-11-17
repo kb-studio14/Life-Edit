@@ -1,0 +1,1 @@
+import Link from 'next/link';export function Navigation(){return <nav className="flex flex-wrap gap-6 border-b border-stone-200 py-6 text-sm">{[['My DNA','/dna'],['My Edit','/edit'],['My Plans','/plans'],['My Finds','/finds']].map(([t,u])=><Link href={u} key={u}>{t}</Link>)}</nav>}
