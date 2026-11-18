@@ -64,10 +64,7 @@ export function DailyNoteEditor({ note, onChange }: {
 
   const state = useEditorState({
     editor,
-    selector: ({ editor }) => ({
-      empty: editor?.isEmpty ?? true,
-      active: controls.map(({ mark }) => editor?.isActive(mark) ?? false),
-    }),
+    selector: ({ editor }) => controls.map(({ mark }) => editor?.isActive(mark) ?? false),
   });
 
   useEffect(() => {
@@ -87,7 +84,7 @@ export function DailyNoteEditor({ note, onChange }: {
             type="button"
             aria-label={label}
             title={label}
-            aria-pressed={state?.active[index] ?? false}
+            aria-pressed={state?.[index] ?? false}
             disabled={!editor}
             onMouseDown={(event) => event.preventDefault()}
             onClick={() => editor?.chain().focus()[command]().run()}
@@ -96,7 +93,7 @@ export function DailyNoteEditor({ note, onChange }: {
           </button>
         ))}
       </div>
-      <EditorContent editor={editor} className={styles.editor} data-empty={state?.empty ?? true} />
+      <EditorContent editor={editor} className={styles.editor} />
     </div>
   );
 }

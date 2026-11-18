@@ -1,45 +1,63 @@
-.heading {
-  display: flex;
+.weekControls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: 'days picker';
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 12px 20px;
+  margin-bottom: 16px;
 }
 
-.heading time {
-  min-height: 1.2em;
-  border-radius: 999px;
-  background: #e8edf5;
-  padding: 6px 11px;
+.weekPicker {
+  grid-area: picker;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  justify-self: end;
+  gap: 4px 10px;
+}
+
+.weekPicker time {
   color: var(--muted);
-  font-size: .84rem;
-  font-weight: 550;
+  font-size: .83rem;
   white-space: nowrap;
 }
 
-.heading time:empty {
-  visibility: hidden;
+.datePicker {
+  min-height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 6px 9px;
+  color: var(--text);
+  font-size: .9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.datePicker::-webkit-calendar-picker-indicator {
+  cursor: pointer;
 }
 
 .dayCards {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 8px;
-  margin-bottom: 16px;
+  grid-area: days;
+  display: flex;
+  gap: clamp(4px, 1vw, 9px);
 }
 
 .dayCard {
   display: grid;
-  min-height: 74px;
+  flex: none;
+  width: clamp(36px, 10vw, 54px);
+  aspect-ratio: 1;
   align-content: center;
   justify-items: center;
-  gap: 3px;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 50%;
   background: var(--surface);
   color: var(--muted);
-  font-size: .8rem;
+  font-size: clamp(.64rem, 1.8vw, .74rem);
   font-weight: 600;
+  line-height: 1.2;
   cursor: pointer;
 }
 
@@ -60,12 +78,8 @@
   color: #fff;
 }
 
-.shortDay {
-  display: none;
-}
-
 .dayNumber {
-  font-size: 1.48rem;
+  font-size: clamp(1rem, 3vw, 1.22rem);
   font-weight: 650;
   font-variant-numeric: tabular-nums;
   line-height: 1.12;
@@ -347,29 +361,21 @@
   margin-top: 15px;
 }
 
-@media (max-width: 760px) {
-  .longDay {
-    display: none;
+@media (max-width: 880px) {
+  .weekControls {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'picker' 'days';
   }
 
-  .shortDay {
-    display: initial;
+  .dayCards {
+    justify-content: space-between;
+    max-width: 510px;
   }
 }
 
 @media (max-width: 680px) {
   .weeklyRitual {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .dayCards {
-    gap: 4px;
-  }
-
-  .dayCard {
-    min-height: 61px;
-    border-radius: 10px;
-    font-size: .72rem;
   }
 }
 
@@ -381,12 +387,5 @@
   .featureImage {
     min-height: 155px;
     margin: 0 11px 11px;
-  }
-}
-
-@media (max-width: 380px) {
-  .heading {
-    align-items: flex-start;
-    flex-direction: column;
   }
 }

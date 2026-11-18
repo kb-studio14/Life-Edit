@@ -84,7 +84,7 @@
   line-height: 1.65;
 }
 
-.editor[data-empty='true'] :global(.tiptap) > p:first-child::before {
+.editor :global(.tiptap) > p:only-child:has(> :global(.ProseMirror-trailingBreak):only-child)::before {
   float: left;
   height: 0;
   color: var(--muted);

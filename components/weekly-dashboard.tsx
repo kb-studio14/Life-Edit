@@ -132,7 +132,7 @@ function DayCards({ days, today, selected, onSelect }: {
   }
 
   return (
-    <div className={styles.dayCards} role="tablist" aria-label="Days of this week">
+    <div className={styles.dayCards} role="tablist" aria-label="Days of the selected week">
       {days.map((day, index) => (
         <button
           key={day.key}
@@ -141,6 +141,7 @@ function DayCards({ days, today, selected, onSelect }: {
           role="tab"
           type="button"
           aria-label={day.label}
+          title={day.label}
           aria-current={day.key === today ? 'date' : undefined}
           aria-selected={day.key === selected}
           aria-controls="daily-tasks"
@@ -148,8 +149,7 @@ function DayCards({ days, today, selected, onSelect }: {
           onClick={() => onSelect(day.key)}
           onKeyDown={(event) => navigate(event, index)}
         >
-          <span className={styles.longDay}>{day.name}</span>
-          <span className={styles.shortDay}>{day.name.slice(0, 3)}</span>
+          <span>{day.name.slice(0, 3)}</span>
           <span className={styles.dayNumber}>{day.dayNumber}</span>
         </button>
       ))}
@@ -159,7 +159,7 @@ function DayCards({ days, today, selected, onSelect }: {
 
 export function WeeklyDashboard({ children }: { children: ReactNode }) {
   const [date, setDate] = useState<Date | null>(null);
-  const [selected, setSelected] = useState('');
+  const [pickedDate, setPickedDate] = useState<Date | null>(null);
   const [dashboard, setDashboard] = useState(EMPTY_DASHBOARD);
   const [reminderStatus, setReminderStatus] = useState('');
   const [storageUnavailable, setStorageUnavailable] = useState(false);
@@ -194,9 +194,16 @@ export function WeeklyDashboard({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const week = date ? describeWeek(startOfWeek(date)) : null;
+  const visibleDate = pickedDate ?? date;
+  const week = visibleDate ? describeWeek(startOfWeek(visibleDate)) : null;
   const today = date ? dateKey(date) : '';
-  const selectedDay = week?.days.find((day) => day.key === selected)?.key ?? today;
+  const selectedDay = visibleDate ? dateKey(visibleDate) : '';
+
+  function selectDay(day: string) {
+    const next = new Date(`${day}T12:00:00`);
+    if (Number.isNaN(next.getTime())) return;
+    setPickedDate(day === today ? null : next);
+  }
 
   function updateDashboard(update: (current: DashboardData) => DashboardData) {
     let next: DashboardData | undefined;
@@ -248,19 +255,28 @@ export function WeeklyDashboard({ children }: { children: ReactNode }) {
 
   return (
     <main className="page-frame">
-      <div className={styles.heading}>
-        <h1 className="page-title">This week</h1>
-        <time dateTime={week?.key}>{week?.label}</time>
-      </div>
+      <h1 className="sr-only">Weekly dashboard</h1>
 
       {week && (
         <>
-          <DayCards
-            days={week.days}
-            today={today}
-            selected={selectedDay}
-            onSelect={(day) => setSelected(day === today ? '' : day)}
-          />
+          <div className={styles.weekControls}>
+            <div className={styles.weekPicker}>
+              {pickedDate && (
+                <button className={styles.textButton} type="button" onClick={() => setPickedDate(null)}>
+                  Today
+                </button>
+              )}
+              <time dateTime={week.key}>{week.label}</time>
+              <input
+                className={styles.datePicker}
+                type="date"
+                aria-label="Choose a date to view its week"
+                value={selectedDay}
+                onChange={(event) => selectDay(event.currentTarget.value)}
+              />
+            </div>
+            <DayCards days={week.days} today={today} selected={selectedDay} onSelect={selectDay} />
+          </div>
           <section
             key={selectedDay}
             id="daily-tasks"
