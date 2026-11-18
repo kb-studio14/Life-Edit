@@ -3,6 +3,7 @@ const FIRST_SUNDAY = Date.UTC(1970, 0, 4);
 const REMINDER_HOUR = 9;
 const monthAndDay = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' });
 const dayOnly = new Intl.DateTimeFormat('en-US', { day: 'numeric' });
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 export const weeklyInspiration = [
   {
@@ -30,7 +31,7 @@ export function startOfWeek(date: Date) {
   return sunday;
 }
 
-function dateKey(date: Date) {
+export function dateKey(date: Date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
@@ -54,6 +55,16 @@ export function describeWeek(sunday: Date) {
     key: dateKey(sunday),
     label: `${monthAndDay.format(sunday)}–${endLabel}, ${saturday.getFullYear()}`,
     inspiration: weeklyInspiration[inspirationIndex],
+    days: WEEKDAYS.map((name, offset) => {
+      const date = new Date(sunday);
+      date.setDate(date.getDate() + offset);
+      return {
+        key: dateKey(date),
+        name,
+        dayNumber: date.getDate(),
+        label: `${name}, ${monthAndDay.format(date)}`,
+      };
+    }),
   };
 }
 
