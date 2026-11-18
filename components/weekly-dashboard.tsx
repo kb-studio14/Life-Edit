@@ -6,10 +6,10 @@ import { dateKey, describeWeek, makeSundayReminder, startOfWeek, weeklyInspirati
 import styles from './weekly-dashboard.module.css';
 
 const STORAGE_KEY = 'life-edit-dashboard-v1';
-const EMPTY_DASHBOARD: DashboardData = { intentions: {}, tasks: [] };
+const EMPTY_DASHBOARD: DashboardData = { intentions: {}, notes: {}, tasks: [] };
 
 type Task = { id: string; title: string; done: boolean; scheduledOn?: string; completedOn?: string };
-type DashboardData = { intentions: Record<string, string>; tasks: Task[] };
+type DashboardData = { intentions: Record<string, string>; notes: Record<string, string>; tasks: Task[] };
 type WeekDay = ReturnType<typeof describeWeek>['days'][number];
 
 function readDashboard(): DashboardData {
@@ -20,8 +20,40 @@ function readDashboard(): DashboardData {
     intentions: parsed?.intentions && typeof parsed.intentions === 'object'
       ? parsed.intentions
       : {},
+    notes: parsed?.notes && typeof parsed.notes === 'object' ? parsed.notes : {},
     tasks: Array.isArray(parsed?.tasks) ? parsed.tasks : [],
   };
+}
+
+function ChecklistComposer({ onAdd }: { onAdd: (title: string) => void }) {
+  const [title, setTitle] = useState('');
+
+  function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!title.trim()) return;
+    onAdd(title.trim());
+    setTitle('');
+  }
+
+  return (
+    <details className={styles.checklistComposer}>
+      <summary className={styles.textButton}>
+        <span aria-hidden="true">+</span> Add checklist item
+      </summary>
+      <form className={styles.taskForm} onSubmit={submit}>
+        <label className="sr-only" htmlFor="new-task">New checklist item</label>
+        <input
+          id="new-task"
+          className="field-control"
+          placeholder="Checklist item…"
+          maxLength={160}
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+        />
+        <button className="primary-action" disabled={!title.trim()}>Add</button>
+      </form>
+    </details>
+  );
 }
 
 function IntentionForm({ saved, suggestion, onSave }: {
@@ -128,7 +160,6 @@ export function WeeklyDashboard({ children }: { children: ReactNode }) {
   const [date, setDate] = useState<Date | null>(null);
   const [selected, setSelected] = useState('');
   const [dashboard, setDashboard] = useState(EMPTY_DASHBOARD);
-  const [taskTitle, setTaskTitle] = useState('');
   const [reminderStatus, setReminderStatus] = useState('');
   const [storageUnavailable, setStorageUnavailable] = useState(false);
 
@@ -181,13 +212,18 @@ export function WeeklyDashboard({ children }: { children: ReactNode }) {
     }
   }
 
-  function addTask(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const title = taskTitle.trim();
-    if (!title || !selectedDay) return;
+  function updateNote(note: string) {
+    updateDashboard((current) => {
+      const notes = { ...current.notes };
+      if (note) notes[selectedDay] = note;
+      else delete notes[selectedDay];
+      return { ...current, notes };
+    });
+  }
+
+  function addTask(title: string) {
     const task = { id: window.crypto.randomUUID(), title, done: false, scheduledOn: selectedDay };
     updateDashboard((current) => ({ ...current, tasks: [...current.tasks, task] }));
-    setTaskTitle('');
   }
 
   function downloadReminder() {
@@ -225,6 +261,7 @@ export function WeeklyDashboard({ children }: { children: ReactNode }) {
             onSelect={(day) => setSelected(day === today ? '' : day)}
           />
           <section
+            key={selectedDay}
             id="daily-tasks"
             className={`surface-card ${styles.panel}`}
             role="tabpanel"
@@ -234,19 +271,15 @@ export function WeeklyDashboard({ children }: { children: ReactNode }) {
               <h2 id="tasks-heading" className="section-title">To-do list</h2>
               {dayTasks.length > 0 && <p role="status">{completed} of {dayTasks.length} done</p>}
             </div>
-            <form className={styles.taskForm} onSubmit={addTask}>
-              <label className="sr-only" htmlFor="new-task">New task</label>
-              <input
-                id="new-task"
-                className="field-control"
-                placeholder="Add a task…"
-                maxLength={160}
-                value={taskTitle}
-                onChange={(event) => setTaskTitle(event.target.value)}
-              />
-              <button className="primary-action" disabled={!taskTitle.trim()}>Add task</button>
-            </form>
-            {dayTasks.length === 0 && <p className={styles.emptyTasks}>No tasks for this day.</p>}
+            <label className="sr-only" htmlFor="daily-note">Daily to-do notes</label>
+            <textarea
+              id="daily-note"
+              className={styles.notesEditor}
+              value={dashboard.notes[selectedDay] ?? ''}
+              onChange={(event) => updateNote(event.target.value)}
+              placeholder="Start typing…"
+              rows={4}
+            />
             {dayTasks.length > 0 && (
               <ul className={styles.tasks}>
                 {dayTasks.map((task) => (
@@ -285,6 +318,7 @@ export function WeeklyDashboard({ children }: { children: ReactNode }) {
                 ))}
               </ul>
             )}
+            <ChecklistComposer onAdd={addTask} />
           </section>
         </>
       )}

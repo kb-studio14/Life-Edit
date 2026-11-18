@@ -173,7 +173,6 @@
 }
 
 .panelDescription,
-.emptyTasks,
 .reminder p,
 .tasksHeading p,
 .status,
@@ -187,8 +186,7 @@
   margin-top: 6px;
 }
 
-.intentionForm,
-.taskForm {
+.intentionForm {
   margin-top: 15px;
 }
 
@@ -253,17 +251,60 @@
   font-weight: 550;
 }
 
+.notesEditor {
+  display: block;
+  width: 100%;
+  min-height: 112px;
+  max-height: 55vh;
+  margin-top: 12px;
+  border-radius: 8px;
+  background: transparent;
+  padding: 8px 2px;
+  font-size: 1rem;
+  line-height: 1.65;
+  resize: vertical;
+  field-sizing: content;
+}
+
+.notesEditor::placeholder {
+  color: var(--muted);
+}
+
+.checklistComposer {
+  margin-top: 12px;
+  border-top: 1px solid var(--border);
+  padding-top: 5px;
+}
+
+.checklistComposer summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 4px;
+  list-style: none;
+}
+
+.checklistComposer summary::-webkit-details-marker {
+  display: none;
+}
+
+.checklistComposer summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.checklistComposer summary span {
+  font-size: 1rem;
+}
+
 .taskForm {
   display: flex;
   gap: 8px;
+  margin-top: 6px;
 }
 
 .taskForm button {
   flex-shrink: 0;
-}
-
-.emptyTasks {
-  margin-top: 14px;
 }
 
 .tasks {
