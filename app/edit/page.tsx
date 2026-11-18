@@ -1,1 +1,11 @@
-import {Shell} from '@/components/shell';export default function Page(){return <Shell title="Your weekly edit"><p className="mb-8">An illustrative Sunday edit.</p><div className="grid gap-4 sm:grid-cols-2">{['Three recipes for this week','Your safari capsule wardrobe','A thoughtful birthday gift','One small home upgrade'].map(t=><article key={t} className="rounded-xl border bg-white p-8"><h2 className="font-serif text-2xl">{t}</h2><p className="mt-3 text-stone-500">Personalized inspiration will appear here when connected.</p></article>)}</div></Shell>}
+import { Shell } from '@/components/shell';
+import { WeeklyEdit } from '@/components/weekly-edit';
+
+export default function Page() {
+  return (
+    <Shell title="Your weekly edit">
+      <p className="mb-8">An illustrative Sunday edit.</p>
+      <WeeklyEdit />
+    </Shell>
+  );
+}

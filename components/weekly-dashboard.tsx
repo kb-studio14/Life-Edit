@@ -1,8 +1,7 @@
 'use client';
 
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { describeWeek, makeSundayReminder, startOfWeek, weeklyInspiration } from '@/lib/weekly-dashboard';
 import styles from './weekly-dashboard.module.css';
 
@@ -67,7 +66,7 @@ function IntentionForm({ saved, onSave }: {
   );
 }
 
-export function WeeklyDashboard() {
+export function WeeklyDashboard({ children }: { children: ReactNode }) {
   const [week, setWeek] = useState<ReturnType<typeof describeWeek> | null>(null);
   const [dashboard, setDashboard] = useState(EMPTY_DASHBOARD);
   const [taskTitle, setTaskTitle] = useState('');
@@ -154,7 +153,7 @@ export function WeeklyDashboard() {
           <p className={styles.featureLabel}>Weekly inspiration <span>Demo</span></p>
           <h2 id="weekly-inspiration-heading">{inspiration.title}</h2>
           <p>{inspiration.description}</p>
-          <Link href="/edit" className={styles.featureLink}>Explore My Edit <span aria-hidden="true">→</span></Link>
+          <a href="#weekly-edit" className={styles.featureLink}>See the Weekly Edit <span aria-hidden="true">↓</span></a>
         </div>
         <div className={styles.featureImage}>
           <Image
@@ -248,6 +247,7 @@ export function WeeklyDashboard() {
         </section>
       </div>
       {storageUnavailable && <p className={styles.storageMessage} role="status">Browser storage is unavailable. Changes may be lost when you leave this page.</p>}
+      {children}
     </main>
   );
 }
