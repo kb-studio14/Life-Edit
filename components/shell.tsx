@@ -1,1 +1,13 @@
-import Link from 'next/link';import {Navigation} from './navigation';export function Shell({title,children}:{title:string,children:React.ReactNode}){return <main className="mx-auto max-w-5xl px-6 py-8"><Link href="/" className="font-serif text-xl">The Life Edit ✳</Link><Navigation/><h1 className="my-12 font-serif text-5xl">{title}</h1>{children}<footer className="mt-20 border-t pt-5 text-xs text-stone-500">Demo only · No live Pinterest or calendar integration</footer></main>}
+import type { ReactNode } from 'react';
+
+export function Shell({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <main className="page-frame">
+      <h1 className="page-title mb-7">{title}</h1>
+      {children}
+      <footer className="muted-text mt-12 border-t border-(--border) pt-5 text-xs">
+        Demo only · No live Pinterest or calendar integration
+      </footer>
+    </main>
+  );
+}

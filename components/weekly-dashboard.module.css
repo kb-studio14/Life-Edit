@@ -1,91 +1,24 @@
-.header,
-.dashboard {
-  --paper: #faf8f4;
-  --ink: #262d22;
-  --muted: #565a50;
-  --line: #e0ddd3;
-  --green: #394730;
-  --serif: Georgia, 'Times New Roman', serif;
-
-  color: var(--ink);
-}
-
-.header {
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
-}
-
-.headerInner,
-.dashboard {
-  width: min(1140px, calc(100% - 72px));
-  margin-inline: auto;
-}
-
-.headerInner {
-  display: flex;
-  min-height: 74px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  font-family: var(--serif);
-  font-size: 1.57rem;
-  letter-spacing: -.035em;
-  white-space: nowrap;
-}
-
-.brand span {
-  color: #6b754d;
-  font-family: Arial, sans-serif;
-  font-size: .9rem;
-}
-
-.navigation {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3px;
-  font-size: .84rem;
-}
-
-.navigation a {
-  padding: 8px 12px;
-  border-radius: 6px;
-  color: var(--muted);
-  white-space: nowrap;
-}
-
-.navigation a:hover,
-.navigation a[aria-current] {
-  background: #ebece2;
-  color: var(--green);
-}
-
-.dashboard {
-  padding-block: 44px 66px;
-}
-
 .heading {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 22px;
-}
-
-.heading h1 {
-  font: 400 clamp(2.65rem, 6vw, 4rem)/1 var(--serif);
-  letter-spacing: -.06em;
+  margin-bottom: 24px;
 }
 
 .heading time {
   min-height: 1.2em;
+  border-radius: 999px;
+  background: #e8edf5;
+  padding: 6px 11px;
   color: var(--muted);
-  font-size: .9rem;
+  font-size: .84rem;
+  font-weight: 550;
+  white-space: nowrap;
+}
+
+.heading time:empty {
+  visibility: hidden;
 }
 
 .dayCards {
@@ -97,28 +30,34 @@
 
 .dayCard {
   display: grid;
-  min-height: 72px;
+  min-height: 74px;
   align-content: center;
   justify-items: center;
   gap: 3px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #fffdf8;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
   color: var(--muted);
   font-size: .8rem;
+  font-weight: 600;
   cursor: pointer;
 }
 
-.dayCard:hover,
+.dayCard:hover {
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+}
+
 .dayCard[aria-current="date"] {
-  border-color: #758367;
-  color: var(--green);
+  border-color: var(--accent);
+  color: var(--accent-hover);
 }
 
 .dayCard[aria-selected="true"] {
-  border-color: var(--green);
-  background: var(--green);
-  color: #fffdf8;
+  border-color: var(--accent);
+  background: var(--accent);
+  box-shadow: 0 4px 12px #1659d635;
+  color: #fff;
 }
 
 .shortDay {
@@ -126,25 +65,26 @@
 }
 
 .dayNumber {
-  font: 400 1.55rem/1.1 var(--serif);
+  font-size: 1.48rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.12;
+  letter-spacing: -.04em;
 }
 
 .weeklyRitual {
   display: grid;
   grid-template-columns: 55fr 45fr;
   overflow: hidden;
-  margin-top: 20px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #fffdf8;
+  margin-top: 18px;
 }
 
 .feature {
   display: grid;
   min-width: 0;
   grid-template-columns: 60fr 40fr;
-  background: #35412e;
-  color: #f8f5eb;
+  background: linear-gradient(145deg, #243754, #121e32);
+  color: #fff;
 }
 
 .featureCopy {
@@ -152,60 +92,73 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  padding: clamp(22px, 3vw, 36px);
+  padding: clamp(20px, 3vw, 34px);
 }
 
 .featureLabel {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
-  color: #e0e2cd;
-  font-size: .74rem;
-  font-weight: 600;
+  gap: 8px;
+  color: #dce7f9;
+  font-size: .72rem;
+  font-weight: 650;
   text-transform: uppercase;
-  letter-spacing: .12em;
+  letter-spacing: .085em;
 }
 
 .featureLabel span {
-  border: 1px solid #98a08a;
-  border-radius: 4px;
-  padding: 2px 5px;
-  font-size: .62rem;
-  letter-spacing: .06em;
+  border-radius: 999px;
+  background: #ffffff18;
+  padding: 3px 7px;
+  font-size: .66rem;
+  letter-spacing: .01em;
+  text-transform: none;
 }
 
 .feature h2 {
-  margin-block: 15px 12px;
-  font: 400 clamp(1.9rem, 3.3vw, 2.65rem)/1.04 var(--serif);
-  letter-spacing: -.045em;
+  margin-block: 12px;
+  font-size: clamp(1.55rem, 3.3vw, 2.45rem);
+  font-weight: 650;
+  line-height: 1.08;
+  letter-spacing: -.055em;
   text-wrap: balance;
 }
 
 .featureCopy > p:not(.featureLabel) {
-  max-width: 34ch;
-  color: #ecebdd;
-  font-size: .94rem;
+  max-width: 35ch;
+  color: #e3ebf8;
+  font-size: .9rem;
   line-height: 1.6;
 }
 
 .featureLink {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 21px;
+  gap: 7px;
+  margin-top: 17px;
+  color: #d6e6ff;
+  font-size: .84rem;
+  font-weight: 650;
   text-decoration: underline;
-  text-underline-offset: 4px;
-  font-size: .87rem;
+  text-underline-offset: 3px;
 }
 
 .featureLink:hover {
-  color: #d3dbb8;
+  color: #fff;
+}
+
+.featureLink:focus-visible {
+  outline-color: #fff;
 }
 
 .featureImage {
   position: relative;
-  min-height: 240px;
-  background: #9b8263;
+  min-height: 232px;
+  overflow: hidden;
+  margin: 11px 11px 11px 0;
+  border-radius: 12px;
+  background: #574f47;
 }
 
 .featureImage img {
@@ -216,18 +169,7 @@
 .panel,
 .intentionPanel {
   min-width: 0;
-  padding: clamp(20px, 3vw, 30px);
-}
-
-.panel {
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #fffdf8;
-}
-
-:is(.panel, .intentionPanel) h2 {
-  font: 400 1.92rem/1.12 var(--serif);
-  letter-spacing: -.035em;
+  padding: clamp(16px, 3vw, 27px);
 }
 
 .panelDescription,
@@ -237,29 +179,17 @@
 .status,
 .storageMessage {
   color: var(--muted);
-  font-size: .84rem;
+  font-size: .85rem;
   line-height: 1.5;
 }
 
 .panelDescription {
-  margin-top: 7px;
+  margin-top: 6px;
 }
 
 .intentionForm,
 .taskForm {
-  margin-top: 17px;
-}
-
-.intentionForm textarea,
-.taskForm input {
-  width: 100%;
-  min-width: 0;
-  border: 1px solid #d9d6cb;
-  border-radius: 8px;
-  background: var(--paper);
-  padding: 11px 12px;
-  color: var(--ink);
-  font-size: .9rem;
+  margin-top: 15px;
 }
 
 .intentionForm textarea {
@@ -267,39 +197,12 @@
   resize: vertical;
 }
 
-.intentionForm textarea::placeholder,
-.taskForm input::placeholder {
-  color: #66665c;
-}
-
 .actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
+  gap: 6px 12px;
   margin-top: 10px;
-}
-
-.primaryButton {
-  flex-shrink: 0;
-  min-height: 42px;
-  border-radius: 7px;
-  background: var(--green);
-  padding-inline: 14px;
-  color: #fffdf8;
-  font-size: .83rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.primaryButton:not(:disabled):hover {
-  background: #263420;
-}
-
-.primaryButton:disabled {
-  background: #e9ebe2;
-  color: #545d4d;
-  cursor: default;
 }
 
 .reminder {
@@ -307,29 +210,28 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 8px 14px;
-  margin-top: 16px;
-  border-top: 1px solid var(--line);
-  padding-top: 13px;
+  gap: 4px 12px;
+  margin-top: 14px;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
 }
 
 .reminder h3 {
   font-size: .9rem;
-  font-weight: 600;
+  font-weight: 650;
 }
 
 .textButton {
-  min-height: 36px;
-  color: #3f5137;
+  min-height: 38px;
+  color: var(--accent-hover);
   font-size: .82rem;
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  font-weight: 650;
   cursor: pointer;
 }
 
 .textButton:hover {
-  color: #202c1a;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .intentionPanel > .status:not(:empty) {
@@ -340,8 +242,15 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
+}
+
+.tasksHeading p {
+  border-radius: 999px;
+  background: var(--surface-soft);
+  padding: 5px 10px;
+  font-weight: 550;
 }
 
 .taskForm {
@@ -349,12 +258,16 @@
   gap: 8px;
 }
 
+.taskForm button {
+  flex-shrink: 0;
+}
+
 .emptyTasks {
-  margin-top: 16px;
+  margin-top: 14px;
 }
 
 .tasks {
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .tasks li {
@@ -363,7 +276,7 @@
   justify-content: space-between;
   gap: 8px;
   min-height: 46px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--border);
 }
 
 .tasks li:last-child {
@@ -385,7 +298,7 @@
   flex-shrink: 0;
   width: 17px;
   height: 17px;
-  accent-color: var(--green);
+  accent-color: var(--accent);
   cursor: pointer;
 }
 
@@ -395,66 +308,30 @@
 }
 
 .removeButton {
-  flex: 0 0 36px;
+  flex: 0 0 38px;
   min-height: 38px;
-  border-radius: 6px;
+  border-radius: 999px;
   color: var(--muted);
-  font-size: 1.32rem;
+  font-size: 1.3rem;
   cursor: pointer;
 }
 
 .removeButton:hover {
-  background: #f1ede5;
-  color: var(--ink);
+  background: var(--surface-soft);
+  color: var(--text);
 }
 
 .storageMessage {
   margin-top: 15px;
 }
 
-.srOnly {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-.dashboard :is(a, button, input, textarea):focus-visible,
-.header a:focus-visible {
-  outline: 2px solid #6d7b4c;
-  outline-offset: 3px;
-}
-
-.dashboard .featureLink:focus-visible {
-  outline-color: #f8f5eb;
-}
-
 @media (max-width: 760px) {
-  .headerInner,
-  .dashboard {
-    width: calc(100% - 36px);
+  .longDay {
+    display: none;
   }
 
-  .headerInner {
-    flex-wrap: wrap;
-    gap: 7px;
-    padding-block: 14px 9px;
-  }
-
-  .navigation {
-    margin-left: -7px;
-  }
-
-  .navigation a {
-    padding-inline: 7px;
-  }
-
-  .dashboard {
-    padding-top: 32px;
+  .shortDay {
+    display: initial;
   }
 }
 
@@ -468,16 +345,9 @@
   }
 
   .dayCard {
-    min-height: 59px;
+    min-height: 61px;
+    border-radius: 10px;
     font-size: .72rem;
-  }
-
-  .longDay {
-    display: none;
-  }
-
-  .shortDay {
-    display: initial;
   }
 }
 
@@ -487,17 +357,14 @@
   }
 
   .featureImage {
-    min-height: 170px;
+    min-height: 155px;
+    margin: 0 11px 11px;
   }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 380px) {
   .heading {
     align-items: flex-start;
     flex-direction: column;
-  }
-
-  .featureCopy {
-    padding-inline: 23px;
   }
 }

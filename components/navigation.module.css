@@ -1,0 +1,78 @@
+.header {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.inner {
+  display: flex;
+  min-height: 68px;
+  width: min(var(--content-width), calc(100% - 2 * var(--page-gutter)));
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-inline: auto;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -.035em;
+  white-space: nowrap;
+}
+
+.brand span {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 9px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: .95rem;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  font-size: .82rem;
+  font-weight: 600;
+}
+
+.links a {
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.links a:hover {
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.links a[aria-current] {
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+}
+
+@media (max-width: 610px) {
+  .inner {
+    flex-wrap: wrap;
+    gap: 7px;
+    padding-block: 12px;
+  }
+
+  .links {
+    width: 100%;
+    gap: 2px;
+  }
+
+  .links a {
+    padding-inline: 8px;
+  }
+}

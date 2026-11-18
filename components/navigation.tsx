@@ -1,20 +1,36 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import styles from './navigation.module.css';
 
 const links = [
+  ['This week', '/'],
   ['My DNA', '/dna'],
   ['My Edit', '/edit'],
   ['My Plans', '/plans'],
   ['My Finds', '/finds'],
 ];
 
-export function Navigation({ className, currentWeek = false }: {
-  className?: string;
-  currentWeek?: boolean;
-}) {
+export function Navigation() {
+  const pathname = usePathname();
+  const activePage = pathname === '/onboarding' ? '/dna' : pathname;
+
   return (
-    <nav aria-label="Main navigation" className={className ?? 'flex flex-wrap gap-6 border-b border-stone-200 py-6 text-sm'}>
-      {currentWeek && <Link href="/" aria-current="page">This week</Link>}
-      {links.map(([title, href]) => <Link href={href} key={href}>{title}</Link>)}
-    </nav>
+    <header className={styles.header}>
+      <div className={styles.inner}>
+        <Link className={styles.brand} href="/">
+          <span aria-hidden="true">✳</span>
+          The Life Edit
+        </Link>
+        <nav className={styles.links} aria-label="Main navigation">
+          {links.map(([title, href]) => (
+            <Link href={href} key={href} aria-current={activePage === href ? 'page' : undefined}>
+              {title}
+            </Link>
+          ))}
+        </nav>
+      </div>
+    </header>
   );
 }

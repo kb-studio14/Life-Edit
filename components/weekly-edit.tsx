@@ -21,9 +21,9 @@ export function WeeklyEdit({ heading: Heading = 'h2' }: { heading?: 'h2' | 'h3' 
   return (
     <ul className="grid gap-3 sm:grid-cols-2">
       {ideas.map(({ title, description }) => (
-        <li key={title} className="rounded-xl border border-[#e0ddd3] bg-[#fffdf8] p-5 sm:p-6">
-          <Heading className="font-serif text-2xl leading-tight tracking-tight">{title}</Heading>
-          <p className="mt-2 max-w-[48ch] text-sm leading-relaxed text-[#565a50]">{description}</p>
+        <li key={title} className="surface-card p-5 sm:p-6">
+          <Heading className="card-title">{title}</Heading>
+          <p className="muted-text mt-2 max-w-[48ch] text-sm leading-relaxed">{description}</p>
         </li>
       ))}
     </ul>

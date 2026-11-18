@@ -47,9 +47,10 @@ function IntentionForm({ saved, suggestion, onSave }: {
 
   return (
     <form className={styles.intentionForm} onSubmit={save}>
-      <label className={styles.srOnly} htmlFor="weekly-intention">Weekly intention</label>
+      <label className="sr-only" htmlFor="weekly-intention">Weekly intention</label>
       <textarea
         id="weekly-intention"
+        className="field-control"
         ref={input}
         value={value}
         rows={3}
@@ -61,7 +62,7 @@ function IntentionForm({ saved, suggestion, onSave }: {
         }}
       />
       <div className={styles.actions}>
-        <button className={styles.primaryButton} disabled={value.trim() === saved}>
+        <button className="primary-action" disabled={value.trim() === saved}>
           Save intention
         </button>
         <button type="button" className={styles.textButton} onClick={() => {
@@ -209,9 +210,9 @@ export function WeeklyDashboard({ children }: { children: ReactNode }) {
   const completed = dayTasks.filter((task) => task.done).length;
 
   return (
-    <main className={styles.dashboard}>
+    <main className="page-frame">
       <div className={styles.heading}>
-        <h1>This week</h1>
+        <h1 className="page-title">This week</h1>
         <time dateTime={week?.key}>{week?.label}</time>
       </div>
 
@@ -225,24 +226,25 @@ export function WeeklyDashboard({ children }: { children: ReactNode }) {
           />
           <section
             id="daily-tasks"
-            className={styles.panel}
+            className={`surface-card ${styles.panel}`}
             role="tabpanel"
             aria-labelledby={`day-${selectedDay}`}
           >
             <div className={styles.tasksHeading}>
-              <h2 id="tasks-heading">To-do list</h2>
+              <h2 id="tasks-heading" className="section-title">To-do list</h2>
               {dayTasks.length > 0 && <p role="status">{completed} of {dayTasks.length} done</p>}
             </div>
             <form className={styles.taskForm} onSubmit={addTask}>
-              <label className={styles.srOnly} htmlFor="new-task">New task</label>
+              <label className="sr-only" htmlFor="new-task">New task</label>
               <input
                 id="new-task"
+                className="field-control"
                 placeholder="Add a task…"
                 maxLength={160}
                 value={taskTitle}
                 onChange={(event) => setTaskTitle(event.target.value)}
               />
-              <button className={styles.primaryButton} disabled={!taskTitle.trim()}>Add task</button>
+              <button className="primary-action" disabled={!taskTitle.trim()}>Add task</button>
             </form>
             {dayTasks.length === 0 && <p className={styles.emptyTasks}>No tasks for this day.</p>}
             {dayTasks.length > 0 && (
@@ -287,7 +289,7 @@ export function WeeklyDashboard({ children }: { children: ReactNode }) {
         </>
       )}
 
-      <div className={styles.weeklyRitual}>
+      <div className={`surface-card ${styles.weeklyRitual}`}>
         <section className={styles.feature} aria-labelledby="weekly-inspiration-heading">
           <div className={styles.featureCopy}>
             <p className={styles.featureLabel}>Weekly inspiration <span>Demo</span></p>
@@ -306,7 +308,7 @@ export function WeeklyDashboard({ children }: { children: ReactNode }) {
           </div>
         </section>
         <section className={styles.intentionPanel} aria-labelledby="intention-heading">
-          <h2 id="intention-heading">Weekly intention</h2>
+          <h2 id="intention-heading" className="section-title">Weekly intention</h2>
           <p className={styles.panelDescription}>What’s one thing you want to make space for this week?</p>
           {week && (
             <IntentionForm
