@@ -3,13 +3,14 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from 'react';
 import Image from 'next/image';
 import { dateKey, describeWeek, makeSundayReminder, startOfWeek, weeklyInspiration } from '@/lib/weekly-dashboard';
+import { DailyNoteEditor, type DailyNote } from './daily-note-editor';
 import styles from './weekly-dashboard.module.css';
 
 const STORAGE_KEY = 'life-edit-dashboard-v1';
 const EMPTY_DASHBOARD: DashboardData = { intentions: {}, notes: {}, tasks: [] };
 
 type Task = { id: string; title: string; done: boolean; scheduledOn?: string; completedOn?: string };
-type DashboardData = { intentions: Record<string, string>; notes: Record<string, string>; tasks: Task[] };
+type DashboardData = { intentions: Record<string, string>; notes: Record<string, DailyNote>; tasks: Task[] };
 type WeekDay = ReturnType<typeof describeWeek>['days'][number];
 
 function readDashboard(): DashboardData {
@@ -212,7 +213,7 @@ export function WeeklyDashboard({ children }: { children: ReactNode }) {
     }
   }
 
-  function updateNote(note: string) {
+  function updateNote(note: DailyNote | undefined) {
     updateDashboard((current) => {
       const notes = { ...current.notes };
       if (note) notes[selectedDay] = note;
@@ -271,15 +272,7 @@ export function WeeklyDashboard({ children }: { children: ReactNode }) {
               <h2 id="tasks-heading" className="section-title">To-do list</h2>
               {dayTasks.length > 0 && <p role="status">{completed} of {dayTasks.length} done</p>}
             </div>
-            <label className="sr-only" htmlFor="daily-note">Daily to-do notes</label>
-            <textarea
-              id="daily-note"
-              className={styles.notesEditor}
-              value={dashboard.notes[selectedDay] ?? ''}
-              onChange={(event) => updateNote(event.target.value)}
-              placeholder="Start typing…"
-              rows={4}
-            />
+            <DailyNoteEditor note={dashboard.notes[selectedDay]} onChange={updateNote} />
             {dayTasks.length > 0 && (
               <ul className={styles.tasks}>
                 {dayTasks.map((task) => (

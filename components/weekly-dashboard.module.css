@@ -251,25 +251,6 @@
   font-weight: 550;
 }
 
-.notesEditor {
-  display: block;
-  width: 100%;
-  min-height: 112px;
-  max-height: 55vh;
-  margin-top: 12px;
-  border-radius: 8px;
-  background: transparent;
-  padding: 8px 2px;
-  font-size: 1rem;
-  line-height: 1.65;
-  resize: vertical;
-  field-sizing: content;
-}
-
-.notesEditor::placeholder {
-  color: var(--muted);
-}
-
 .checklistComposer {
   margin-top: 12px;
   border-top: 1px solid var(--border);
